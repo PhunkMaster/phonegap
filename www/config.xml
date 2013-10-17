@@ -50,4 +50,8 @@
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="http://127.0.0.1*" />
     <gap:plugin name="org.apache.cordova.core.device" />
+    <gap:plugin name="org.apache.cordova.core.network-information" />
+    <gap:plugin name="com.phonegap.plugins.hydration" />
+    <gap:plugin name="org.apache.cordova.core.vibration" />
+    
 </widget>
