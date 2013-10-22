@@ -24,7 +24,7 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
-	<preference name="loadingDialog" value ="Loading, Please Wait" />
+    <preference name="loadingDialog" value="Loading, Please Wait" />
     <icon src="icon.png" />
     <icon gap:density="ldpi" gap:platform="android" src="res/icon/android/icon-36-ldpi.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/icon/android/icon-48-mdpi.png" />
@@ -53,5 +53,6 @@
     <gap:plugin name="org.apache.cordova.core.device" />
     <gap:plugin name="org.apache.cordova.core.network-information" />
     <gap:plugin name="org.apache.cordova.core.vibration" />
-	<gap:plugin name="org.apache.cordova.core.geolocation" />    
+    <gap:plugin name="org.apache.cordova.core.geolocation" />
+    <content src="index.html" />
 </widget>
