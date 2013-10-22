@@ -3,14 +3,6 @@
     <name>Phil App 1</name>
     <description>
 	Third attempt
-	
-	ChangeLog:
-		0.0.3:
-			Adding in a loading value to make sure the load is friendly.
-			Close the app when it's suspended, don't need to take up extra resources
-			Removed Fullscreen, I want to see my title bar
-			Added GeoLocation Plugin
-			
     </description>
     <author email="phil@phunkmaster.com" href="http://phunkmaster.com">
         Philip Magalios
