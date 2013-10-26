@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phunkapps.philapp1" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.phunkapps.philapp1" version="0.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Phil App 1</name>
     <description>
-	Third attempt
+	A simple application that I am using to learn phonegap. This will do nothing special.
     </description>
     <author email="phil@phunkmaster.com" href="http://phunkmaster.com">
         Philip Magalios

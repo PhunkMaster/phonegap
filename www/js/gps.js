@@ -25,16 +25,20 @@ var gps = {
 		Success is what the GPS function will call if all is well
 		The GPS returns 'position' on success so we need to have a function of that
 		*/
+		var header = document.getElementById("header");
+		var status = document.getElementById("acqstatus");
 		var success = function(position){
 			//Doing some stuff with the position here.
-			alert('Latitude: ' + position.coords.latitude  + '\n' + 
-			'Longitude: '+ position.coords.longitude         + '\n' +
-			'Altitude: '          + position.coords.altitude          + '\n' +
-			'Accuracy: '          + position.coords.accuracy          + '\n' +
-			'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-			'Heading: '           + position.coords.heading           + '\n' +
-			'Speed: '             + position.coords.speed             + '\n' +
-			'Timestamp: '         + position.timestamp                + '\n');
+			//Update the DOM
+			header.innerHTML="Acquired GPS";
+			status.innerHTML=('Your GPS coordinates have been acquired' + '</br>' + '</br>' + 'Latitude: ' + position.coords.latitude  + '</br>' + 
+			'Longitude: '+ position.coords.longitude         + '</br>' +
+			'Altitude: '          + position.coords.altitude          + '</br>' +
+			'Accuracy: '          + position.coords.accuracy          + '</br>' +
+			'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '</br>' +
+			'Heading: '           + position.coords.heading           + '</br>' +
+			'Speed: '             + position.coords.speed             + '</br>' +
+			'Timestamp: '         + position.timestamp                + '</br>');
 		}
 		
 		/*
@@ -44,6 +48,8 @@ var gps = {
 		var failure = function(error){
 			//Doing some error handling here.
 			alert('There was an error acquiring your GPS location');
+			header.innerHTML="Could not acquire GPS";
+			status.innderHTM="Your GPS coordinates could not be acquired";
 		}
 		
 		/*
