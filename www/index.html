@@ -20,13 +20,14 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=10, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <title>Hello World</title>
     </head>
     <body>
-        <div class="app">
+        <!--Hello World
+		<div class="app">
             <h1>Phil App 1</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
@@ -38,5 +39,26 @@
         <script type="text/javascript">
             app.initialize();
         </script>
+		End Hello World-->
+		<div class="gps">
+			<div id="gps">
+				<H1>Acquiring your GPS Coordinates...</H1>
+					<p class="event acquiring">Acquiring your GPS co-ordinates</p>
+					<p class="event acquired">Your GPS co-ordinates have been acquired</p>
+			</div>
+		</div>
+		<!--Need to always call phonegap-->
+		<script type="text/javascript" src="phonegap.js"></script>
+		<!--Prepare my js file for calling, essntially a 'require'-->
+		<script type="text/javascript" src="js/gps.js"></script>
+		<!--The script commands I want to run to make things happen, call to my js will be here-->
+		<script type="text/javascript">
+			//Need to make sure cordova is loaded before we do anything
+			document.addEventListener("deviceready", onDeviceReady, false);
+			//Call the javascript that's needed
+			function onDeviceReady(){
+				gps.acquire();
+			}
+		</script>
     </body>
 </html>
