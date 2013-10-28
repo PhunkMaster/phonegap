@@ -31,14 +31,15 @@ var gps = {
 			//Doing some stuff with the position here.
 			//Update the DOM
 			header.innerHTML="Acquired GPS";
-			status.innerHTML=('Your GPS coordinates have been acquired' + '</br>' + '</br>' + 'Latitude: ' + position.coords.latitude  + '</br>' + 
+			status.innerHTML=('Your GPS coordinates have been acquired' + '</br>' + '</br>' +
+			'Timestamp: '         + position.timestamp                + '</br>' + 
+			'Latitude: ' + position.coords.latitude  + '</br>' + 
 			'Longitude: '+ position.coords.longitude         + '</br>' +
 			'Altitude: '          + position.coords.altitude          + '</br>' +
 			'Accuracy: '          + position.coords.accuracy          + '</br>' +
 			'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '</br>' +
 			'Heading: '           + position.coords.heading           + '</br>' +
-			'Speed: '             + position.coords.speed             + '</br>' +
-			'Timestamp: '         + position.timestamp                + '</br>');
+			'Speed: '             + position.coords.speed             + '</br>' );
 		}
 		
 		/*
