@@ -1,3 +1,0 @@
-# view AndroidManifest.xml #generated:6
--keep class com.phunkapps.philapp1.PhilApp1 { <init>(...); }
-
