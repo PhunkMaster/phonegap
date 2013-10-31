@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="css/firehost.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.js"></script>
+		<!--Need to always call phonegap-->
+		<script type="text/javascript" src="cordova.js" rel="external"></script>
+		<!--Prepare my js file for calling, essentially a 'require'-->
+		<script type="text/javascript">
+			function quit(){
+        		navigator.app.exitApp();
+    		}
+    	</script>
+        <title>FireHost Customer Portal</title>
+    </head>
+    <body>
+    	<div data-role="page" id="mainpage" data-theme="a">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					<a href="#dashbaord">Login</a>
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#mainpage", function() {
+	    			$( document ).on( "swipeleft swiperight", "#mainpage", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#mainmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#mainmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="mainmenu" data-theme="a">
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+		</div>
+    	<div data-role="page" id="dashbaord">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Dashboard</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#dashbaord", function() {
+	    			$( document ).on( "swipeleft swiperight", "#dashbaord", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#dashmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#dashmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="dashmenu" data-theme="a">
+				<a href="#tickets" data-role="button">Tickets</a>
+				<a href="#sevices" data-role="button">Services</a>
+				<a href="#security" data-role="button">Security</a>
+				<a href="#network" data-role="button">Network</a>
+				<a href="#partner" data-role="button">Partner</a>
+				<a href="#account" data-role="button">Account</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="tickets">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Tickets</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#tickets", function() {
+	    			$( document ).on( "swipeleft swiperight", "#tickets", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#ticketsmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#ticketsmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="ticketsmenu" data-theme="a">
+				<a href="#dashboard" data-role="button">Dashboard</a>
+				<a href="#services" data-role="button">Services</a>
+				<a href="#security" data-role="button">Security</a>
+				<a href="#network" data-role="button">Network</a>
+				<a href="#partner" data-role="button">Partner</a>
+				<a href="#account" data-role="button">Account</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="services">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Services</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#services", function() {
+	    			$( document ).on( "swipeleft swiperight", "#services", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#servicesmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#servicesmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="servicesmenu" data-theme="a">
+				<a href="#dashbaord" data-role="button">Dashboard</a>
+				<a href="#tickets" data-role="button">Tickets</a>
+				<a href="#security" data-role="button">Security</a>
+				<a href="#network" data-role="button">Network</a>
+				<a href="#partner" data-role="button">Partner</a>
+				<a href="#account" data-role="button">Account</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="security">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Security</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#security", function() {
+	    			$( document ).on( "swipeleft swiperight", "#security", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#securitymenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#securitymenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="securitymenu" data-theme="a">
+				<a href="#dashboard" data-role="button">Dashboard</a>
+				<a href="#tickets" data-role="button">Tickets</a>
+				<a href="#services" data-role="button">Services</a>
+				<a href="#network" data-role="button">Network</a>
+				<a href="#partner" data-role="button">Partner</a>
+				<a href="#account" data-role="button">Account</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="network">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Network</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#network", function() {
+	    			$( document ).on( "swipeleft swiperight", "#network", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#networkmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#networkmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="networkmenu" data-theme="a">
+				<a href="#dashborad" data-role="button">Dashboard</a>
+				<a href="#tickets" data-role="button">Tickets</a>
+				<a href="#services" data-role="button">Services</a>
+				<a href="#security" data-role="button">Security</a>
+				<a href="#partner" data-role="button">Partner</a>
+				<a href="#account" data-role="button">Account</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="partner">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Partner</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#partner", function() {
+	    			$( document ).on( "swipeleft swiperight", "#partner", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#partnermenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#partnermenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="partnermenu" data-theme="a">
+				<a href="#dashboard" data-role="button">Dashboard</a>
+				<a href="#tickets" data-role="button">Tickets</a>
+				<a href="#services" data-role="button">Services</a>
+				<a href="#sercurity" data-role="button">Security</a>
+				<a href="#network" data-role="button">Network</a>
+				<a href="#account" data-role="button">Account</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="account">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						FireHost Customer Portal Account</br>Company Name
+					</h1>
+				</div>
+			</div>
+			<div data-role="content">
+				<h2>
+					****Give Me Content****
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#account", function() {
+	    			$( document ).on( "swipeleft swiperight", "#account", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#accountmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#accountmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="accountmenu" data-theme="a">
+				<a href="#dashboard" data-role="button">Dashbaord</a>
+				<a href="#tickets" data-role="button">Tickets</a>
+				<a href="#services" data-role="button">Services</a>
+				<a href="#security" data-role="button">Security</a>
+				<a href="#network" data-role="button">Network</a>
+				<a href="#partner" data-role="button">Partner</a>
+				</br>
+				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    </body>
+</html>

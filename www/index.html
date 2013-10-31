@@ -1,47 +1,118 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <!--<meta charset="utf-8" />
         <meta name="format-detection" content="telephone=yes" />
-        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=10, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
-		<link rel="stylesheet" href="css/jquery-mobile.css">
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-mobile.js"></script>
-        <title>Main Page</title>
+        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.js"></script>
+		<!--Need to always call phonegap-->
+		<script type="text/javascript" src="cordova.js" rel="external"></script>
+		<!--Prepare my js file for calling, essentially a 'require'-->
+		<script type="text/javascript" src="js/gps.js" rel="external"></script>
+		<script type="text/javascript">
+			function quit(){
+        		navigator.app.exitApp();
+    		}
+    	</script>
+        <title>Phil App!</title>
     </head>
     <body>
-		<div class="main">
-			<!--Hello World
-			<div class="app">
-				<h1>Phil App 1</h1>
-				<div id="deviceready" class="blink">
-					<p class="event listening">Connecting to Device</p>
-					<p class="event received">I can make things work too</p>
+    	<div data-role="page" id="mainpage">
+	    	<div data-role="header">
+				<div>
+					<h1>
+						Phil App
+					</h1>
 				</div>
 			</div>
-			<script type="text/javascript" src="phonegap.js"></script>
-			<script type="text/javascript" src="js/hworld.js"></script>
-			<script type="text/javascript">
-				app.initialize();
+			<div data-role="content">
+				<h2>
+					Swipe right to continue
+				</h2>
+			</div>
+			<script>
+				$( document ).on( "pageinit", "#mainpage", function() {
+	    			$( document ).on( "swipeleft swiperight", "#mainpage", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#mainmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#mainmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
 			</script>
-			End Hello World-->
-			<div class="header">What would you like to do?</div>
-			<div class="nav">
-				<p>
-					<a href="gps.html" data-role="button" rel="external">Get my GPS location</a>
-				</p>
-				<p>
-					<a href="pic.html" data-role="button" rel="external">Take a Picture</a>
-				</p>
-				<p>
-					<a href="quit.html" data-role="button" rel="external">Quit</a>
-				</p>
-				</br>
-				</br>
+			<div data-role="panel" id="mainmenu" data-theme="a">
+    			<a href="#gpspage" data-role="button">Get my GPS location</a>
+				<a href="pic.html" data-role="button" rel="external">Take a Picture</a>
+				<a data-role="button" onClick="quit()">Quit</a>
 				</br>
 				<a href="test.html" data-role="button" rel="external">╥</a>
-			</div>
+				</br>
+				</br>
+				</br>
+				</br>
+				<a href="firehost.html" data-role="button" rel="external">FireHost</a>
+    		</div>
 		</div>
+		<div data-role="page" id="gpspage">
+			<div data-role="header">
+				<h1>
+					GPS Information
+				</h1>
+			</div>
+	    	<div data-role="content" id="acqstatus" class="center">
+				Acquiring your GPS co-ordinates
+			</div>
+			<div data-role="content">
+				<img id="map" data-role="content" src="">
+				<div class="latlong" data-role="collapsible">
+					<h3>
+						GPS Info
+					</h3>
+					<div id="gpsinfo" data-role="content" class="center">
+					</div>
+				</div>
+			</div>
+			<!--The script commands I want to run to make things happen, call to my js will be here-->
+			<script type="text/javascript">
+				//Need to make sure cordova is loaded before we do anything
+				document.addEventListener("deviceready", onDeviceReady, false);
+				//Call the javascript that's needed
+				function onDeviceReady(){
+					gps.acquire();	
+				}
+			</script>
+			<script>
+				$( document ).on( "pageinit", "#gpspage", function() {
+	    			$( document ).on( "swipeleft swiperight", "#gpspage", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#gpsmenu" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#gpsmenu" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+			<div data-role="panel" id="gpsmenu" data-theme="a">
+				<a href="pic.html" data-role="button" rel="external">Take a Picture</a>
+				<a href="#mainpage" data-role="button">Go back to main page</a>
+				<a href="quit.html" data-role="button" onClick="quit()">Quit</a>
+    		</div>
+		</div>	
     </body>
 </html>

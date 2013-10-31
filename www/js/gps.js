@@ -1,23 +1,4 @@
 var gps = {
-/* 	acquire: function(){
-	receivedEvent: function(id) {
-	var parentElement = document.getElementById(id);
-	var listeningElement = parentElement.querySelector('.acquiring');
-	var receivedElement = parentElement.querySelector('.acquired');
-
-	acquiringElement.setAttribute('style', 'display:none;');
-	acquiredElement.setAttribute('style', 'display:block;');
-	
-	console.log('Received Event: ' + id);
-	} */
-	/*acquire: function(){
-		//var parentElement = document.getElementById(id);
-		//var acquiringElement = parentElement.querySelector('.acquiring');
-		//var acquiredElement = parentElement.querySelector('.acquired');
-		//acquiringElement.setAttribute('style', 'display:none;');
-	}*/
-	
-
 	//What index is reaching in here for
 	acquire: function(){
 		//we are setting the variables that the GPS will call
@@ -25,21 +6,27 @@ var gps = {
 		Success is what the GPS function will call if all is well
 		The GPS returns 'position' on success so we need to have a function of that
 		*/
-		var header = document.getElementById("header");
 		var status = document.getElementById("acqstatus");
+		var map = document.getElementById("map");
 		var success = function(position){
 			//Doing some stuff with the position here.
 			//Update the DOM
-			header.innerHTML="Acquired GPS";
-			status.innerHTML=('Your GPS coordinates have been acquired' + '</br>' + '</br>' +
-			'Timestamp: '         + position.timestamp                + '</br>' + 
-			'Latitude: ' + position.coords.latitude  + '</br>' + 
-			'Longitude: '+ position.coords.longitude         + '</br>' +
-			'Altitude: '          + position.coords.altitude          + '</br>' +
-			'Accuracy: '          + position.coords.accuracy          + '</br>' +
-			'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '</br>' +
-			'Heading: '           + position.coords.heading           + '</br>' +
-			'Speed: '             + position.coords.speed             + '</br>' );
+			status.innerHTML=('Your GPS coordinates have been acquired');
+			$('#gpsinfo').append('Timestamp: '+ position.timestamp).trigger('create');
+			$('#gpsinfo').append('</br>Latitude: ' + position.coords.latitude).trigger('create');
+			$('#gpsinfo').append('</br>Longitude: '+ position.coords.longitude).trigger('create');
+			$('#gpsinfo').append('</br>Altitude: ' + position.coords.altitude).trigger('create');
+			$('#gpsinfo').append('</br>Accuracy: ' + position.coords.accuracy).trigger('create');
+			$('#gpsinfo').append('</br>Altitude Accuracy: ' + position.coords.altitudeAccuracy).trigger('create');
+			$('#gpsinfo').append('</br>Heading: ' + position.coords.heading).trigger('create');
+			$('#gpsinfo').append('</br>Speed: ' + position.coords.speed).trigger('create');
+			//Let's get a map!
+			var lat = position.coords.latitude
+			var long = position.coords.longitude
+			lat = lat.toFixed(6);
+			long = long.toFixed(6);
+			map.src=("https://maps.googleapis.com/maps/api/staticmap?size=288x200&sensor=false&zoom=13&center=" 
+				+ lat + "," + long + "&markers=color:red%7Clabel:A%7C" + lat + "," + long);
 		}
 		
 		/*
@@ -48,9 +35,9 @@ var gps = {
 		*/
 		var failure = function(error){
 			//Doing some error handling here.
-			alert('There was an error acquiring your GPS location');
 			header.innerHTML="Could not acquire GPS";
-			status.innderHTM="Your GPS coordinates could not be acquired";
+			status.innderHTML="Your GPS coordinates could not be acquired";
+			alert('There was an error acquiring your GPS location');
 		}
 		
 		/*

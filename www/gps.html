@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=yes" />
-        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=10, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
-		<!--<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-mobile.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.js"></script>
         <title>GPS Page</title>
     </head>
     <body>
-		<div class="gps">
-			<p id="header" class="header">Acquiring...</p>
-			</br>
-			<p id="acqstatus" class="content">Acquiring your GPS co-ordinates</p>
+		<div class="gps" data-role="content">
+			<h1 id="header" class="header">Acquiring...</h1>
+			<h2 id="acqstatus" class="content">Acquiring your GPS co-ordinates</h2>
+			<img id="map" data-role="content" src="">
+			<div class="latlong" data-role="collapsible">
+				<h3>
+					GPS Info
+				</h3>
+				<div id="gpsinfo" data-role="content">
+				</div>
+			</div>
 			<!--Need to always call phonegap-->
-			<script type="text/javascript" src="phonegap.js" rel="external"></script>
+			<script type="text/javascript" src="cordova.js" rel="external"></script>
 			<!--Prepare my js file for calling, essentially a 'require'-->
 			<script type="text/javascript" src="js/gps.js" rel="external"></script>
 			<!--The script commands I want to run to make things happen, call to my js will be here-->
@@ -27,7 +31,7 @@
 				document.addEventListener("deviceready", onDeviceReady, false);
 				//Call the javascript that's needed
 				function onDeviceReady(){
-					gps.acquire();
+					gps.acquire();	
 				}
 			</script>
 		</div>
