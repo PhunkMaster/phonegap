@@ -201,3 +201,7 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
 .center{
     text-align: center;
 }
+
+.left{
+    text-align: left;
+}

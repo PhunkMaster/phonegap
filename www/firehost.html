@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="css/firehost.css" />
+        <!--<link rel="stylesheet" type="text/css" href="css/fh.css" />-->
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
 		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.js"></script>
 		<!--Need to always call phonegap-->
@@ -29,9 +29,29 @@
 			</div>
 			<div data-role="content">
 				<h2>
-					<a href="#dashbaord">Login</a>
+					<form>
+						<label for="username">Username</label>
+						<input type="email" data-clear-btn="true" name="username" id="username" value="">
+						</br>
+						<label for="password">Password</label>
+						<input type="password" data-clear-btn="true" name="password" id="password" value="">
+						</br>
+						<label for="tenant">Account Number</label>
+						<input type="text" data-clear-btn="true" name="tenant" id="tenant" value="" maxlength="6">
+						</br>
+						<a id="submit" data-role="button">Login</a>
+						<input tupe="disabled" name="token" id ="token" value="">
+					</form>
 				</h2>
 			</div>
+			<script type="text/javascript">
+				$('#submit').click(function(){
+					//alert('button click');
+					$.post("https://api.firehost.com/api/login", {"userName": username,"password": password, "tenant": tenant }, function(data){
+						alert (data);
+					}, "json");
+					});
+			</script>
 			<script>
 				$( document ).on( "pageinit", "#mainpage", function() {
 	    			$( document ).on( "swipeleft swiperight", "#mainpage", function( e ) {
@@ -48,7 +68,7 @@
 			    	});
 				});
 			</script>
-			<div data-role="panel" id="mainmenu" data-theme="a">
+			<div data-role="panel" id="mainmenu" data-theme="c">
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
 		</div>
