@@ -40,7 +40,6 @@
 						<input type="text" data-clear-btn="true" name="tenant" id="tenant" value="" maxlength="6">
 						</br>
 						<a id="submit" data-role="button">Login</a>
-						<input tupe="disabled" name="token" id ="token" value="">
 					</form>
 				</h2>
 			</div>
@@ -48,12 +47,19 @@
 				$(function(){
 					$('#submit').click(function(){
 					//alert('button click');
-						$.ajax({
-						  type : "post",
-						  url : "https://api.firehost.com/api/login",
-						  data : JSON.stringify({userName : "user", password: "banana", tenant : "ALLI01"}),
-						  processData: false,
-						  contentType: "text/json"
+					//$.post("https://api.firehost.com/api/login", {"userName": username,"password": password, "tenant": tenant }, function(data){
+					//	alert (data);
+					//}, "json");
+						$.ajax({type : "post", url : "https://api.firehost.com/api/login", data : JSON.stringify({userName : $('#username').val(), password: $('#password').val(), tenant : $('#tenant').val()}), processData: false, contentType: "application/json",
+							success: function(s){
+						  		var loginrespose = JSON.parse(data)
+						  		var token = loginrespose.result.token
+						  		$.localstorage('token', token);
+						  		alert(JSON.stringify(token));
+						  	},
+						  	error: function(e){
+						  		alert(JSON.stringify(e));
+						  	}
 						});
 					});
 				});
