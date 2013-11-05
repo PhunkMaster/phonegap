@@ -45,12 +45,18 @@
 				</h2>
 			</div>
 			<script type="text/javascript">
-				$('#submit').click(function(){
+				$(function(){
+					$('#submit').click(function(){
 					//alert('button click');
-					$.post("https://api.firehost.com/api/login", {"userName": username,"password": password, "tenant": tenant }, function(data){
-						alert (data);
-					}, "json");
+						$.ajax({
+						  type : "post",
+						  url : "https://api.firehost.com/api/login",
+						  data : JSON.stringify({userName : "user", password: "banana", tenant : "ALLI01"}),
+						  processData: false,
+						  contentType: "text/json"
+						});
 					});
+				});
 			</script>
 			<script>
 				$( document ).on( "pageinit", "#mainpage", function() {
