@@ -11,15 +11,26 @@
 		<!--Need to always call phonegap-->
 		<script type="text/javascript" src="cordova.js" rel="external"></script>
 		<!--Prepare my js file for calling, essentially a 'require'-->
+		<script type="text/javascript" src="js/apiget.js" rel="external"></script>
 		<script type="text/javascript">
 			function quit(){
         		navigator.app.exitApp();
+    		}
+    	</script>
+    	<script type="text/javascript">
+    		function logout(){
+    			localStorage.removeItem('key');
+    			window.location.href = '#mainpage';
+    			alert(localStorage.getItem('key'));
     		}
     	</script>
         <title>FireHost Customer Portal</title>
     </head>
     <body>
     	<div data-role="page" id="mainpage" data-theme="a">
+    		<script type="text/javascript">
+    			apiget.test();
+    		</script>
 	    	<div data-role="header">
 				<div>
 					<h1>
@@ -50,15 +61,42 @@
 					//$.post("https://api.firehost.com/api/login", {"userName": username,"password": password, "tenant": tenant }, function(data){
 					//	alert (data);
 					//}, "json");
-						$.ajax({type : "post", url : "https://api.firehost.com/api/login", data : JSON.stringify({userName : $('#username').val(), password: $('#password').val(), tenant : $('#tenant').val()}), processData: false, contentType: "application/json",
+						$.ajax({
+							type : "post", 
+							url : "https://api.firehost.com/api/login", 
+							data : JSON.stringify({
+								userName : $('#username').val(), 
+								password: $('#password').val(), 
+								tenant : $('#tenant').val().toUpperCase()}), 
+							processData: false, 
+							async: false,
+							contentType: "application/json",
 							success: function(s){
-						  		var loginrespose = JSON.parse(data)
-						  		var token = loginrespose.result.token
-						  		$.localstorage('token', token);
-						  		alert(JSON.stringify(token));
+						  		var loginresponse = JSON.stringify(s)
+						  		var stringresponse = $.parseJSON(loginresponse);
+						  		var token = stringresponse.result.token
+						  		localStorage.setItem('key', token);
+						  		//alert(localStorage.getItem('key'));
+						  		window.location.replace("#dashboard")
 						  	},
 						  	error: function(e){
-						  		alert(JSON.stringify(e));
+						  		var loginresponse = JSON.stringify(e)
+						  			console.log('loginresponse ' + loginresponse);
+						  		var stringresponse = $.parseJSON(loginresponse);
+						  			console.log('stringresponse' + stringresponse);
+						  		var errorresponse = stringresponse.responseText
+						  			console.log('errorresponse ' + errorresponse)
+						  		var stringerrorresponse = $.parseJSON(errorresponse);
+						  			console.log('stringerrorresponse ' + stringerrorresponse);
+						  		var errormsg = JSON.stringify(stringerrorresponse.error)
+						  			console.log('error ' + errormsg)
+						  		var stringerrormsg = $.parseJSON(errormsg);
+						  			console.log('stringerrormsg ' + stringerrormsg);
+						  		var errormsgmsg = JSON.stringify(stringerrormsg)
+						  			console.log('errormsgmsg ' + errormsgmsg);
+						  		var stringerrormsgmsg = $.parseJSON(errormsg);
+						  			console.log('stringerrormsgmsg ' + stringerrormsgmsg.message);
+						  		alert (stringerrormsg.message);
 						  	}
 						});
 					});
@@ -84,7 +122,7 @@
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
 		</div>
-    	<div data-role="page" id="dashbaord">
+    	<div data-role="page" id="dashboard">
 	    	<div data-role="header">
 				<div>
 					<h1>
@@ -98,8 +136,8 @@
 				</h2>
 			</div>
 			<script>
-				$( document ).on( "pageinit", "#dashbaord", function() {
-	    			$( document ).on( "swipeleft swiperight", "#dashbaord", function( e ) {
+				$( document ).on( "pageinit", "#dashboard", function() {
+	    			$( document ).on( "swipeleft swiperight", "#dashboard", function( e ) {
 		       			// We check if there is no open panel on the page because otherwise
 		        		// a swipe to close the left panel would also open the right panel (and v.v.).
 				        // We do this by checking the data that the framework stores on the page element (panel: open).
@@ -115,13 +153,13 @@
 			</script>
 			<div data-role="panel" id="dashmenu" data-theme="a">
 				<a href="#tickets" data-role="button">Tickets</a>
-				<a href="#sevices" data-role="button">Services</a>
+				<a href="#services" data-role="button">Services</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>
 				<a href="#partner" data-role="button">Partner</a>
 				<a href="#account" data-role="button">Account</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
@@ -134,9 +172,10 @@
 				</div>
 			</div>
 			<div data-role="content">
-				<h2>
-					****Give Me Content****
-				</h2>
+				<ul class="ticketList" data-role="listview">
+					<div id="ticketitems" data-role="content" class="center">
+					</div>
+				</ul>
 			</div>
 			<script>
 				$( document ).on( "pageinit", "#tickets", function() {
@@ -154,6 +193,11 @@
 			    	});
 				});
 			</script>
+			<script type="text/javascript">
+				$(document).on("pageinit", "#tickets", function(){
+					apiget.ticketlist();
+				});
+			</script>
 			<div data-role="panel" id="ticketsmenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
 				<a href="#services" data-role="button">Services</a>
@@ -162,7 +206,7 @@
 				<a href="#partner" data-role="button">Partner</a>
 				<a href="#account" data-role="button">Account</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
@@ -196,14 +240,14 @@
 				});
 			</script>
 			<div data-role="panel" id="servicesmenu" data-theme="a">
-				<a href="#dashbaord" data-role="button">Dashboard</a>
+				<a href="#dashboard" data-role="button">Dashboard</a>
 				<a href="#tickets" data-role="button">Tickets</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>
 				<a href="#partner" data-role="button">Partner</a>
 				<a href="#account" data-role="button">Account</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
@@ -244,7 +288,7 @@
 				<a href="#partner" data-role="button">Partner</a>
 				<a href="#account" data-role="button">Account</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
@@ -278,14 +322,14 @@
 				});
 			</script>
 			<div data-role="panel" id="networkmenu" data-theme="a">
-				<a href="#dashborad" data-role="button">Dashboard</a>
+				<a href="#dashboard" data-role="button">Dashboard</a>
 				<a href="#tickets" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#partner" data-role="button">Partner</a>
 				<a href="#account" data-role="button">Account</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
@@ -326,7 +370,7 @@
 				<a href="#network" data-role="button">Network</a>
 				<a href="#account" data-role="button">Account</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
@@ -360,14 +404,14 @@
 				});
 			</script>
 			<div data-role="panel" id="accountmenu" data-theme="a">
-				<a href="#dashboard" data-role="button">Dashbaord</a>
+				<a href="#dashboard" data-role="button">Dashboard</a>
 				<a href="#tickets" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>
 				<a href="#partner" data-role="button">Partner</a>
 				</br>
-				<a href="#mainpage" data-role="button">Logout</a>
+				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
     		</div>
     	</div>
