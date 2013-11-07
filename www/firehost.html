@@ -21,7 +21,13 @@
     		function logout(){
     			localStorage.removeItem('key');
     			window.location.href = '#mainpage';
-    			alert(localStorage.getItem('key'));
+    		}
+    	</script>
+    	<script type="text/javascript">
+    		function ticketslist(){
+			$('#ticketList').empty();
+			apiget.ticketlist();
+			window.location.href = '#tickets';
     		}
     	</script>
         <title>FireHost Customer Portal</title>
@@ -56,49 +62,12 @@
 			</div>
 			<script type="text/javascript">
 				$(function(){
-					$('#submit').click(function(){
+					$('#submit').click(function(username, password, tenant){
 					//alert('button click');
 					//$.post("https://api.firehost.com/api/login", {"userName": username,"password": password, "tenant": tenant }, function(data){
 					//	alert (data);
 					//}, "json");
-						$.ajax({
-							type : "post", 
-							url : "https://api.firehost.com/api/login", 
-							data : JSON.stringify({
-								userName : $('#username').val(), 
-								password: $('#password').val(), 
-								tenant : $('#tenant').val().toUpperCase()}), 
-							processData: false, 
-							async: false,
-							contentType: "application/json",
-							success: function(s){
-						  		var loginresponse = JSON.stringify(s)
-						  		var stringresponse = $.parseJSON(loginresponse);
-						  		var token = stringresponse.result.token
-						  		localStorage.setItem('key', token);
-						  		//alert(localStorage.getItem('key'));
-						  		window.location.replace("#dashboard")
-						  	},
-						  	error: function(e){
-						  		var loginresponse = JSON.stringify(e)
-						  			console.log('loginresponse ' + loginresponse);
-						  		var stringresponse = $.parseJSON(loginresponse);
-						  			console.log('stringresponse' + stringresponse);
-						  		var errorresponse = stringresponse.responseText
-						  			console.log('errorresponse ' + errorresponse)
-						  		var stringerrorresponse = $.parseJSON(errorresponse);
-						  			console.log('stringerrorresponse ' + stringerrorresponse);
-						  		var errormsg = JSON.stringify(stringerrorresponse.error)
-						  			console.log('error ' + errormsg)
-						  		var stringerrormsg = $.parseJSON(errormsg);
-						  			console.log('stringerrormsg ' + stringerrormsg);
-						  		var errormsgmsg = JSON.stringify(stringerrormsg)
-						  			console.log('errormsgmsg ' + errormsgmsg);
-						  		var stringerrormsgmsg = $.parseJSON(errormsg);
-						  			console.log('stringerrormsgmsg ' + stringerrormsgmsg.message);
-						  		alert (stringerrormsg.message);
-						  	}
-						});
+						apiget.login(username, password, tenant);
 					});
 				});
 			</script>
@@ -152,7 +121,7 @@
 				});
 			</script>
 			<div data-role="panel" id="dashmenu" data-theme="a">
-				<a href="#tickets" data-role="button">Tickets</a>
+				<a onClick="ticketslist()" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>
@@ -172,11 +141,19 @@
 				</div>
 			</div>
 			<div data-role="content">
-				<ul class="ticketList" data-role="listview">
-					<div id="ticketitems" data-role="content" class="center">
-					</div>
+				<ul id='ticketList' data-role='listview' data-inset='true' data-filter='true'>
 				</ul>
 			</div>
+			<script type="text/javascript">
+				$(function(){
+					//$('.ticketbutton').click( {tn:this.id}, function(){
+					$('body').on('click', '.ticketbutton', {tn:this.id}, function(){
+						var tn = this.id
+						apiget.ticketdetail(tn);
+						window.location.href = '#ticketdetail';
+					});
+				});
+			</script>
 			<script>
 				$( document ).on( "pageinit", "#tickets", function() {
 	    			$( document ).on( "swipeleft swiperight", "#tickets", function( e ) {
@@ -193,11 +170,11 @@
 			    	});
 				});
 			</script>
-			<script type="text/javascript">
-				$(document).on("pageinit", "#tickets", function(){
-					apiget.ticketlist();
-				});
-			</script>
+			<!--<script type="text/javascript">
+				//$( document ).on("pageinit", "#tickets", function(){
+					//apiget.ticketlist();
+				//});
+			</script>-->
 			<div data-role="panel" id="ticketsmenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
 				<a href="#services" data-role="button">Services</a>
@@ -208,6 +185,52 @@
 				</br>
 				<a data-role="button" onClick="logout()">Logout</a>
 				<a data-role="button" onClick="quit()">Quit</a>
+    		</div>
+    	</div>
+    	<div data-role="page" id="ticketdetail">
+    		<div data-role="header" id='ticketdetailheader'>
+    			<div>
+    				<h1>
+    					FireHost Customer Portal Ticket detail
+    				</h1>
+    			</div>
+    		</div>
+    		<div data-role='content'> <!--id='TicketContentDetail' data-role='collapsible-set'>-->
+    			<div data-role='collapsible' id='TicketDetailStatusContainer' data-iconpos='right'>
+    				<h3>
+    					Ticket Status
+    				</h3>
+    				<div id='TicketDetailStatus' class="ticketstatus">
+    					<div class="statustext" id='statustext'></div>
+    					<div class="statusicon"><img id='statusicon' src=''></div>
+    				</div>
+    			</div>
+				<div data-role='collapsible' id='ticketdetailtitlecontailer' data-iconpos='right'>
+    				<h3>
+    					Comments
+    				</h3>
+    				<div id='ticketdetailcomments'>
+    				</div>
+				</div>
+    		</div>
+			<script>
+				$( document ).on( "pageinit", "#ticketdetail", function() {
+	    			$( document ).on( "swipeleft swiperight", "#ticketdetail", function( e ) {
+		       			// We check if there is no open panel on the page because otherwise
+		        		// a swipe to close the left panel would also open the right panel (and v.v.).
+				        // We do this by checking the data that the framework stores on the page element (panel: open).
+				        if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+				            if ( e.type === "swipeleft"  ) {
+				                $( "#ticketdetailpanel" ).panel( "close" );
+				            } else if ( e.type === "swiperight" ) {
+				                $( "#ticketdetailpanel" ).panel( "open" );
+				            }
+				        }
+			    	});
+				});
+			</script>
+    		<div data-role='panel' id='ticketdetailpanel' data-theme='a'>
+    			<a onClick="ticketslist()" data-role="button">Back</a>
     		</div>
     	</div>
     	<div data-role="page" id="services">
@@ -241,7 +264,7 @@
 			</script>
 			<div data-role="panel" id="servicesmenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
-				<a href="#tickets" data-role="button">Tickets</a>
+				<a onClick="ticketslist()" data-role="button">Tickets</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>
 				<a href="#partner" data-role="button">Partner</a>
@@ -282,7 +305,7 @@
 			</script>
 			<div data-role="panel" id="securitymenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
-				<a href="#tickets" data-role="button">Tickets</a>
+				<a onClick="ticketslist()" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#network" data-role="button">Network</a>
 				<a href="#partner" data-role="button">Partner</a>
@@ -323,7 +346,7 @@
 			</script>
 			<div data-role="panel" id="networkmenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
-				<a href="#tickets" data-role="button">Tickets</a>
+				<a onClick="ticketslist()" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#partner" data-role="button">Partner</a>
@@ -364,7 +387,7 @@
 			</script>
 			<div data-role="panel" id="partnermenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
-				<a href="#tickets" data-role="button">Tickets</a>
+				<a onClick="ticketslist()" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#sercurity" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>
@@ -405,7 +428,7 @@
 			</script>
 			<div data-role="panel" id="accountmenu" data-theme="a">
 				<a href="#dashboard" data-role="button">Dashboard</a>
-				<a href="#tickets" data-role="button">Tickets</a>
+				<a onClick="ticketslist()" data-role="button">Tickets</a>
 				<a href="#services" data-role="button">Services</a>
 				<a href="#security" data-role="button">Security</a>
 				<a href="#network" data-role="button">Network</a>

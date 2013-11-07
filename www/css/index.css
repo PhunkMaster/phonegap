@@ -40,7 +40,7 @@ body {
     margin:0px;
     padding:0px;
     width:100%;
-	position:absolute;
+    position:absolute;
 }
 
 /* Portrait layout (default) */
@@ -91,23 +91,23 @@ body {
 }
 
 .main{
-	overflow:visible;
-	width:100%;
-	height:auto;
-	text-align:center;
+    overflow:visible;
+    width:100%;
+    height:auto;
+    text-align:center;
 }
 
 .nav{
-	text-align:center;
-	font-size: 35px;
+    text-align:center;
+    font-size: 35px;
     font-weight:normal;
 }
 
 .gps {
-	overflow:visible;
-	width:100%;
-	height:auto;
-	text-align:center;
+    overflow:visible;
+    width:100%;
+    height:auto;
+    text-align:center;
 }
 
 h1 {
@@ -120,7 +120,7 @@ h1 {
 }
 
 h2{
-	font-size: 35px;
+    font-size: 35px;
     font-weight:normal;
     margin:0px;
     overflow:visible;
@@ -134,7 +134,7 @@ h2{
 }
 
 .content{
-	font-size: 35px;
+    font-size: 35px;
     font-weight:normal;
 }
 
@@ -204,4 +204,14 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
 
 .left{
     text-align: left;
+}
+.ticketstatus{
+    display: inline-block;
+    width: 100%;
+}
+.statustext{
+    float: left;
+}
+.statusicon{
+    float: right;
 }

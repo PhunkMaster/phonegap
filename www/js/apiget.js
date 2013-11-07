@@ -1,7 +1,44 @@
 var apiget = {
 	//What index is reaching in here for
-	login: function(){
-
+	login: function(username, password, tenant){
+		$.ajax({
+			type : "post", 
+			url : "https://api.firehost.com/api/login", 
+			data : JSON.stringify({
+				userName : $('#username').val(), 
+				password: $('#password').val(), 
+				tenant : $('#tenant').val().toUpperCase()}), 
+			processData: false, 
+			async: false,
+			contentType: "application/json",
+			success: function(s){
+		  		var loginresponse = JSON.stringify(s)
+		  		var stringresponse = $.parseJSON(loginresponse);
+		  		var token = stringresponse.result.token
+		  		localStorage.setItem('key', token);
+		  		//alert(localStorage.getItem('key'));
+		  		window.location.replace("#dashboard")
+		  	},
+		  	error: function(e){
+		  		var loginresponse = JSON.stringify(e)
+		  			console.log('loginresponse ' + loginresponse);
+		  		var stringresponse = $.parseJSON(loginresponse);
+		  			console.log('stringresponse' + stringresponse);
+		  		var errorresponse = stringresponse.responseText
+		  			console.log('errorresponse ' + errorresponse)
+		  		var stringerrorresponse = $.parseJSON(errorresponse);
+		  			console.log('stringerrorresponse ' + stringerrorresponse);
+		  		var errormsg = JSON.stringify(stringerrorresponse.error)
+		  			console.log('error ' + errormsg)
+		  		var stringerrormsg = $.parseJSON(errormsg);
+		  			console.log('stringerrormsg ' + stringerrormsg);
+		  		var errormsgmsg = JSON.stringify(stringerrormsg)
+		  			console.log('errormsgmsg ' + errormsgmsg);
+		  		var stringerrormsgmsg = $.parseJSON(errormsg);
+		  			console.log('stringerrormsgmsg ' + stringerrormsgmsg.message);
+		  		alert (stringerrormsg.message);
+		  	}
+		});
 	},
 	test: function(){
 		var token = localStorage.getItem('key')
@@ -16,10 +53,9 @@ var apiget = {
 				url: "https://api.firehost.com/api/login",
 				processData: false,
 				async: false,
-				//Authorization: {"Bearer " : token},
 				success: function(s){
-					alert('You have successfully been logged in.');
-					window.location.href = '#dashboard';
+					//alert('You have successfully been logged in.');
+					//window.location.href = '#dashboard';
 				},
 				error: function(e){
 					alert('For security reasons, You have been logged out. Please login again.');
@@ -30,6 +66,7 @@ var apiget = {
 	},
 	ticketlist: function(){
 		var	token = localStorage.getItem('key');
+		var i = 0
 		$.ajax({
 			beforeSend:function(xhr){
 				xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -39,32 +76,61 @@ var apiget = {
 			processData: false,
 			async: false,
 			success: function(ticketlist){
-				var allticketinfostring = JSON.stringify(ticketlist)
-				console.log(allticketinfostring);
-				console.log('>');
-				console.log('>');
-				var allticketinfo = $.parseJSON(allticketinfostring)
-				console.log(allticketinfo);
-				console.log('>');
-				console.log('>');
-				var allticketresults = allticketinfo.result
-				console.log(allticketresults.id);
-				console.log('>');
-				console.log('>');
-				var ticketitemstring = JSON.stringify(allticketresults);
-				var ticketitem = $.parseJSON(ticketitemstring)
-				var singleticketstring = JSON.stringify(allticketresults)
-				var singleticket = $.parseJSON(singleticketstring)
-									var oneticketstring = JSON.stringify(singleticket);
-					var oneTicket = $.parseJSON(oneticketstring);
-				$.each(oneTicket, function(){
+				var ticketliststring = JSON.stringify(ticketlist)
+				var ticketlistparsed = $.parseJSON(ticketliststring)
+				var ticketlist1string = JSON.stringify(ticketlistparsed.result)
+				var ticketlist1parsed = $.parseJSON(ticketlist1string)
+				for (var i = 0; i < ticketlist1parsed.length; i++){
+					$('#ticketList').append("<a class='ticketbutton' id='" + ticketlist1parsed[i].ticketNumber + "' data-role='button'>" +  ticketlist1parsed[i].ticketNumber +"</a>").trigger("create")
+					//$('#ticketList').append("<a id='ticketbutton_" + ticketlist1parsed[i].ticketNumber + "' data-role='button'>" +  ticketlist1parsed[i].ticketNumber +"</a>").trigger("create")
+					$('#tickets').trigger("refresh")
 
-					console.log(oneTicket.ticketNumber);
-					$('#ticketitems').append('<li>' + ticketitem.ticketNumber + '</li>').trigger('create');
-				});
+				}
 			},
 			error: function(ticketerror){
 				alert ('There was an error, please try again later.');
+			}
+		});
+	},
+	ticketdetail: function(tn){
+		$('#ticketdetailcomments').empty();
+		$('#statustext').empty();
+		var header = document.getElementById("ticketdetailheader")
+		var	token = localStorage.getItem('key');
+		$.ajax({
+			beforeSend:function(xhr){
+				xhr.setRequestHeader("Authorization", "Bearer " + token);
+			},
+			type: "get",
+			url: "https://api.firehost.com/api/ticket/" + tn,
+			processData: false,
+			async: false,
+			success: function(ticketdetails){
+				var ticketdetailsstring = JSON.stringify(ticketdetails.result);
+				var ticketdetailparse = $.parseJSON(ticketdetailsstring)
+				header.innerHTML=("<h1>" + ticketdetailparse.title + "</h1>");
+				if (ticketdetailparse.status == "Closed") {
+					$('#statustext').append('Closed').trigger('create');
+					$('#statusicon').attr('src', 'icon_resolved.png');
+				}else if (ticketdetailparse.status == "Open") {
+					$('#statustext').append('Open').trigger('create');
+					$('#statusicon').attr('src', 'icon_open.png');
+				}else{
+					$('#statustext').append('Awaiting Response').trigger('create');
+					$('#statusicon').attr('src', 'icon_flag.png');
+				};
+				var ticketdetailcomments = ticketdetailparse.comments
+				var ticketdetailcommentsstring = JSON.stringify(ticketdetailcomments)
+				var ticketdetailcommentsparse = $.parseJSON(ticketdetailcommentsstring)
+				for (var i = 0; i < ticketdetailcommentsparse.length; i++){
+					console.log(ticketdetailcommentsparse[i].comment);
+					$('#ticketdetailcomments').append("<li>" + JSON.stringify(ticketdetailcommentsparse[i].comment) + "</li>").trigger("create")
+					$('#ticketdetailcomments').trigger('create');
+				}
+			},
+			error: function(ticketerror){
+				alert ('There was an error, please try again later.');
+				window.location.href = '#tickets';
 			}
 		});
 	}
