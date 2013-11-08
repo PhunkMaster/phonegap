@@ -17,7 +17,7 @@ var apiget = {
 		  		var token = stringresponse.result.token
 		  		localStorage.setItem('key', token);
 		  		//alert(localStorage.getItem('key'));
-		  		window.location.replace("#dashboard")
+		  		window.location.replace("#tickets")
 		  	},
 		  	error: function(e){
 		  		var loginresponse = JSON.stringify(e)
@@ -55,7 +55,7 @@ var apiget = {
 				async: false,
 				success: function(s){
 					//alert('You have successfully been logged in.');
-					//window.location.href = '#dashboard';
+					window.location.href = '#tickets';
 				},
 				error: function(e){
 					alert('For security reasons, You have been logged out. Please login again.');
@@ -110,12 +110,15 @@ var apiget = {
 				var ticketdetailparse = $.parseJSON(ticketdetailsstring)
 				header.innerHTML=("<h1>" + ticketdetailparse.title + "</h1>");
 				if (ticketdetailparse.status == "Closed") {
+					var icon = 'icon_resolved.png'
 					$('#statustext').append('Closed').trigger('create');
 					$('#statusicon').attr('src', 'icon_resolved.png');
 				}else if (ticketdetailparse.status == "Open") {
+					var icon = 'icon_open.png'
 					$('#statustext').append('Open').trigger('create');
 					$('#statusicon').attr('src', 'icon_open.png');
 				}else{
+					var icon = 'icon_flag.png'
 					$('#statustext').append('Awaiting Response').trigger('create');
 					$('#statusicon').attr('src', 'icon_flag.png');
 				};
@@ -123,8 +126,9 @@ var apiget = {
 				var ticketdetailcommentsstring = JSON.stringify(ticketdetailcomments)
 				var ticketdetailcommentsparse = $.parseJSON(ticketdetailcommentsstring)
 				for (var i = 0; i < ticketdetailcommentsparse.length; i++){
-					console.log(ticketdetailcommentsparse[i].comment);
-					$('#ticketdetailcomments').append("<li>" + JSON.stringify(ticketdetailcommentsparse[i].comment) + "</li>").trigger("create")
+					var dt = new Date(ticketdetailcommentsparse[i].dateCreated);
+					var comment = ticketdetailcommentsparse[i].comment.replace(/\n/g, "</br>")
+					$('#ticketdetailcomments').append("<div data-role='collapsible' data-iconpos='right'>" + "<h3>" + dt + "</h3>" +"<li>" + comment + "</li>" + "</div>").trigger("create")
 					$('#ticketdetailcomments').trigger('create');
 				}
 			},
